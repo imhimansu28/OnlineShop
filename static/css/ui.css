@@ -140,12 +140,12 @@ a:hover {
 }
 
 .hover-bg:hover {
-  background: #3167eb;
+  background: #13da00;
   /* For browsers that do not support gradients */
   /* For Safari 5.1 to 6.0 */
   /* For Opera 11.1 to 12.0 */
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right, #3167eb, #3167eb);
+  background: linear-gradient(to bottom right, #94eb31, #50eb31);
   /* Standard syntax */
   transition: 0.5s;
 }
