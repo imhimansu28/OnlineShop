@@ -26,7 +26,7 @@
 >>> pip install django
 
 ```
-[my profile](https://wwww.github.com/imhimansu28)
+[my profile](https://www.github.com/imhimansu28)
 
 
 
