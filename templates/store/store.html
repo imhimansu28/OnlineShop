@@ -127,7 +127,7 @@
 		<figure class="card card-product-grid">
 			<div class="img-wrap"> 
 				
-				<img src="{{product.images.url}}">
+				<a href="{{product.get_url}}" class="img-wrap"><img src="{{product.images.url}}" class ="fluid-img" width = "300px"></a>
 				
 			</div> <!-- img-wrap.// -->
 			<figcaption class="info-wrap">
@@ -137,7 +137,7 @@
 						<span class="price">${{product.price}}</span>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-outline-warning">Added to cart </a>
+				<a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-outline-warning">Added to cart </a>
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->

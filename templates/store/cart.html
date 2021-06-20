@@ -4,10 +4,10 @@
     <!-- ============================ COMPONENT 1 ================================= -->
 
     {% if not cart_items %}
-	<h2>Your Shopping Cart is Empty</h2>
+	<h2  class ="text-center">Your Shopping Cart is Empty</h2>
 	<br>
 	<div class="text-center">
-		<a href="" class ="btn btn-primary"></a>
+		<a href="{% url 'store' %}" class ="btn btn-outline-success">Continue Shopping</a>
 	</div>
     {% else %}
     <div class="row">
@@ -34,7 +34,7 @@
                       />
                     </div>
                     <figcaption class="info">
-                      <a href="#" class="title text-dark"
+                      <a href="{{ cart_item.product.get_url }}" class="title text-dark"
                         >{{cart_item.product.product_name}}</a
                       >
                       <p class="text-muted small">
@@ -127,7 +127,7 @@
             <a href="./place-order.html" class="btn btn-primary btn-block">
               Checkout
             </a>
-            <a href="./store.html" class="btn btn-light btn-block"
+            <a href="{% url 'store' %}" class="btn btn-light btn-block"
               >Continue Shopping</a
             >
           </div>
