@@ -1,7 +1,11 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <section class="section-pagetop bg">
   <div class="container">
+    {% if 'search' in request.path %}
+    <h2 class="title-page">Search Result</h2>
+    {% else %}
     <h2 class="title-page">Our Store</h2>
+    {% endif %}
   </div>
   <!-- container //  -->
 </section>
@@ -58,22 +62,22 @@
               <div class="card-body">
                 <label class="checkbox-btn">
                   <input type="checkbox" />
-                  <span class="btn btn-outline-success"> XS </span>
+                  <span class="btn btn-outline-primary"> XS </span>
                 </label>
 
                 <label class="checkbox-btn">
                   <input type="checkbox" />
-                  <span class="btn btn-outline-success"> SM </span>
+                  <span class="btn btn-outline-primary"> SM </span>
                 </label>
 
                 <label class="checkbox-btn">
                   <input type="checkbox" />
-                  <span class="btn btn-outline-success"> LG </span>
+                  <span class="btn btn-outline-primary"> LG </span>
                 </label>
 
                 <label class="checkbox-btn">
                   <input type="checkbox" />
-                  <span class="btn btn-outline-success"> XXL </span>
+                  <span class="btn btn-outline-primary"> XXL </span>
                 </label>
               </div>
               <!-- card-body.// -->
@@ -124,7 +128,7 @@
                   </div>
                 </div>
                 <!-- form-row.// -->
-                <button class="btn btn-block btn-success">Apply</button>
+                <button class="btn btn-block btn-primary">Apply</button>
               </div>
               <!-- card-body.// -->
             </div>
@@ -143,7 +147,8 @@
         <!-- sect-heading -->
 
         <div class="row">
-          {% for product in products %}
+        {% if products %}
+                  {% for product in products %}
           <div class="col-md-4">
             <figure class="card card-product-grid">
               <div class="img-wrap">
@@ -175,6 +180,10 @@
           </div>
           <!-- col.// -->
           {% endfor %}
+          {% else %}
+          <h2>  No result Found. Please try again !</h2>
+        {% endif %}
+        
         </div>
         <!-- row end.// -->
 

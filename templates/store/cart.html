@@ -4,11 +4,11 @@
     <!-- ============================ COMPONENT 1 ================================= -->
 
     {% if not cart_items %}
-	<h2  class ="text-center">Your Shopping Cart is Empty</h2>
-	<br>
-	<div class="text-center">
-		<a href="{% url 'store' %}" class ="btn btn-outline-success">Continue Shopping</a>
-	</div>
+    <h2 class="text-center">Your Shopping Cart is Empty</h2>
+    <br>
+    <div class="text-center">
+      <a href="{% url 'store' %}" class="btn btn-outline-primary">Continue Shopping</a>
+    </div>
     {% else %}
     <div class="row">
       <aside class="col-lg-9">
@@ -28,18 +28,17 @@
                 <td>
                   <figure class="itemside align-items-center">
                     <div class="aside">
-                      <img
-                        src="{{cart_item.product.images.url}}"
-                        class="img-sm"
-                      />
+                      <img src="{{cart_item.product.images.url}}" class="img-sm" />
                     </div>
                     <figcaption class="info">
-                      <a href="{{ cart_item.product.get_url }}" class="title text-dark"
-                        >{{cart_item.product.product_name}}</a
-                      >
+                      <a href="{{ cart_item.product.get_url }}"
+                        class="title text-dark">{{cart_item.product.product_name}}</a>
                       <p class="text-muted small">
-                        color: Red <br />
-                        Size: 23
+                        {% if cart_item.variation.all %}
+                        {% for item in cart_item.variation.all %}
+                        {{item.variation_category | capfirst}}:{{item.variation_value | capfirst}} <br>
+                        {% endfor %}
+                        {% endif %}
                       </p>
                     </figcaption>
                   </figure>
@@ -49,29 +48,23 @@
                   <div class="col">
                     <div class="input-group input-spinner">
                       <div class="input-group-prepend">
-                        <a
-                          href="{% url 'remove_cart' cart_item.product.id %}"
-                          class="btn btn-light"
-                          type="button"
-                          id="button-plus"
-                        >
+                        <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="btn btn-light" type="button"
+                          id="button-plus">
                           <i class="fa fa-minus"></i>
                         </a>
                       </div>
-                      <input
-                        type="text"
-                        class="form-control"
-                        value="{{cart_item.quantity}}"
-                      />
+                      <input type="text" class="form-control" value="{{cart_item.quantity}}" />
                       <div class="input-group-append">
-                        <a
-                          href="{% url 'add_cart' cart_item.product.id %}"
-                          class="btn btn-light"
-                          type="button"
-                          id="button-minus"
-                        >
-                          <i class="fa fa-plus"></i>
-                        </a>
+                        <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
+                          {% csrf_token %}
+                          {% for item in cart_item.variation.all %}
+                          <input type="hidden" name="{{item.variation_category | lower}}"
+                            value="{{item.variation_value | capfirst}}">
+                          {% endfor %}
+                          <button class="btn btn-light" type="submit" id="button-minus">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </form>
                       </div>
                     </div>
                     <!-- input-group.// -->
@@ -81,19 +74,14 @@
                 <td>
                   <div class="price-wrap">
                     <var class="price">${{cart_item.sub_total}}</var>
-                    <small class="text-muted"
-                      >${{cart_item.product.price}} each
+                    <small class="text-muted">${{cart_item.product.price}} each
                     </small>
                   </div>
                   <!-- price-wrap .// -->
                 </td>
                 <td class="text-right">
-                  <a
-                    href="{% url 'remove_cart_item' cart_item.product.id %}"
-                    class="btn btn-danger"
-                  >
-                    Remove</a
-                  >
+                  <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm('Are you sure removing this item ?')" class="btn btn-danger">
+                    Remove</a>
                 </td>
               </tr>
               {% endfor %}
@@ -127,9 +115,7 @@
             <a href="./place-order.html" class="btn btn-primary btn-block">
               Checkout
             </a>
-            <a href="{% url 'store' %}" class="btn btn-light btn-block"
-              >Continue Shopping</a
-            >
+            <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
           </div>
           <!-- card-body.// -->
         </div>
