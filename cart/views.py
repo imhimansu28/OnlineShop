@@ -8,32 +8,31 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def _cart_id(request):
-    cart = request.session.session_key
-    if not cart:
-        cart = request.session.create()
-    return cart
+    return request.session.session_key or request.session.create()
 
 
 def add_cart(request, product_id):
     current_user = request.user
 
-    product = Product.objects.get(id=product_id) 
+    product = Product.objects.get(id=product_id)
+    variation_products = []
+    if request.method == 'POST':
+        for item in request.POST:
+            key = item
+            value = request.POST[key]
+            try:
+                variation = Variation.objects.get(
+                    product=product, variation_category__iexact=key, variation_value__iexact=value)
+                variation_products.append(variation)
+            except:
+                pass
+
     # if user authenticate
     if current_user.is_authenticated:
-        variation_products = []
-        if request.method == 'POST':
-            for item in request.POST:
-                key = item
-                value = request.POST[key]
-                try:
-                    variation = Variation.objects.get(
-                        product=product, variation_category__iexact=key, variation_value__iexact=value)
-                    variation_products.append(variation)
-                except:
-                    pass
-
-        is_cart_item_exists = CartItem.objects.filter( product=product, user=current_user,).exists()
-        if is_cart_item_exists:
+        if is_cart_item_exists := CartItem.objects.filter(
+            product=product,
+            user=current_user,
+        ).exists():
             cart_item = CartItem.objects.filter(product=product,  user=current_user)
             ex_var_list = []
             id = []
@@ -51,7 +50,7 @@ def add_cart(request, product_id):
                 item.save()
             else:
                 item = CartItem.objects.create(product=product, quantity= 1, user= current_user)
-                if len(variation_products) > 0:
+                if variation_products:
                     item.variation.clear()
                     item.variation.add(*variation_products)
                     # cart_item.quantity += 1
@@ -63,24 +62,11 @@ def add_cart(request, product_id):
                     quantity=1,
                     user= current_user,
                 )
-            if len(variation_products) > 0:
+            if variation_products:
                 cart_item.variation.clear()
-                cart_item.variation.add(*variation_products)  
+                cart_item.variation.add(*variation_products)
             cart_item.save()
-        return redirect('cart')
     else:
-        variation_products = []
-        if request.method == 'POST':
-            for item in request.POST:
-                key = item
-                value = request.POST[key]
-                try:
-                    variation = Variation.objects.get(
-                        product=product, variation_category__iexact=key, variation_value__iexact=value)
-                    variation_products.append(variation)
-                except:
-                    pass
-
         product = Product.objects.get(id=product_id)
         try:
             cart = Cart.objects.get(cart_id=_cart_id(request))
@@ -90,9 +76,10 @@ def add_cart(request, product_id):
             )
         cart.save()
 
-        is_cart_item_exists = CartItem.objects.filter(
-            product=product, cart=cart,).exists()
-        if is_cart_item_exists:
+        if is_cart_item_exists := CartItem.objects.filter(
+            product=product,
+            cart=cart,
+        ).exists():
             cart_item = CartItem.objects.filter(product=product,  cart=cart)
             # existing variation -> database
             # correct varition -> product_database
@@ -115,7 +102,7 @@ def add_cart(request, product_id):
                 item.save()
             else:
                 item = CartItem.objects.create(product=product, quantity= 1, cart = cart)
-                if len(variation_products) > 0:
+                if variation_products:
                     item.variation.clear()
                     item.variation.add(*variation_products)
                     # cart_item.quantity += 1
@@ -127,11 +114,12 @@ def add_cart(request, product_id):
                     quantity=1,
                     cart=cart,
                 )
-            if len(variation_products) > 0:
+            if variation_products:
                 cart_item.variation.clear()
-                cart_item.variation.add(*variation_products)  
+                cart_item.variation.add(*variation_products)
             cart_item.save()
-        return redirect('cart')
+
+    return redirect('cart')
 
 
 def remove_cart(request, product_id, cart_item_id):
