@@ -101,7 +101,7 @@ def login(request):
                 pass
             auth.login(request, user)
             messages.success(request, "You are now logged in")
-            url = request.META.get('HTTP_REFERER')
+            url = request.headers.get('referer')
             try:
                 query = requests.utils.urlparse(url).query
                 params= dict(x.split('=') for x in query.split('&'))
@@ -197,4 +197,3 @@ def resetPassword(request):
             return redirect('resetPassword')
     else:
         return render(request, 'accounts/resetPassword.html')
-    
