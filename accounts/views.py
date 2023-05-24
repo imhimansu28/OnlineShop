@@ -101,7 +101,7 @@ def login(request):
                 print("Entering inside except block")
             auth.login(request, user)
             messages.success(request, "You are now logged in")
-            url = request.META.get('HTTP_REFERER')
+            url = request.headers.get('referer')
             try:
                 query = requests.utils.urlparse(url).query
                 params= dict(x.split('=') for x in query.split('&'))
@@ -196,4 +196,3 @@ def resetPassword(request):
     else:
         messages.error(request, 'Password do not match')
         return redirect('resetPassword')
-    
