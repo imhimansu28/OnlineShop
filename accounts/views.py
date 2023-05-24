@@ -36,7 +36,7 @@ def register(request):
             user = Account.objects.create_user(first_name = first_name, last_name = last_name, email = email, username = username, password= password)
             user.phone_number = phone_number
             user.save()
-            
+
             # user Activations
             current_site = get_current_site(request)
             mail_subject = 'Please Activate Your Account'
@@ -50,7 +50,7 @@ def register(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
             # messages.success(request, "Thankyou! for registring with us. We have sent you a verification mail to your anothers. Please Verify it")
-            return redirect('/accounts/login/?command=verification&email='+email)
+            return redirect(f'/accounts/login/?command=verification&email={email}')
     else:
         form  = RegistrationForm()
     context ={
@@ -67,8 +67,9 @@ def login(request):
         if user is not None:
             try:
                 cart = Cart.objects.get(cart_id=_cart_id(request))
-                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
-                if is_cart_item_exists:
+                if is_cart_item_exists := CartItem.objects.filter(
+                    cart=cart
+                ).exists():
                     cart_item = CartItem.objects.filter(cart=cart)
                     variation_products = []
                     for item in cart_item:
@@ -82,7 +83,7 @@ def login(request):
                         existing_variation = item.variation.all()
                         ex_var_list.append(list(existing_variation))
                         id.append(item.id)
-                    
+
                     for pr in variation_products:
                         if pr in ex_var_list:
                             index = ex_var_list.index(pr)
@@ -98,7 +99,6 @@ def login(request):
                                 item.save()
             except:
                 print("Entering inside except block")
-                pass
             auth.login(request, user)
             messages.success(request, "You are now logged in")
             url = request.headers.get('referer')
@@ -181,19 +181,18 @@ def resetpassword_validate(request, uidb64, token):
         return redirect('login')
 
 def resetPassword(request):
-    if request.method == 'POST':
-        password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
-
-        if password == confirm_password:
-            uid = request.session.get('uid')
-            user = Account.objects.get(pk=uid)
-            user.set_password(password)
-            user.save()
-            messages.success(request, 'Password reste Successful')
-            return redirect('login')
-        else:
-            messages.error(request, 'Password do not match')
-            return redirect('resetPassword')
-    else:
+    if request.method != 'POST':
         return render(request, 'accounts/resetPassword.html')
+    password = request.POST['password']
+    confirm_password = request.POST['confirm_password']
+
+    if password == confirm_password:
+        uid = request.session.get('uid')
+        user = Account.objects.get(pk=uid)
+        user.set_password(password)
+        user.save()
+        messages.success(request, 'Password reste Successful')
+        return redirect('login')
+    else:
+        messages.error(request, 'Password do not match')
+        return redirect('resetPassword')
