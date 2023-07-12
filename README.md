@@ -33,7 +33,7 @@ The project documentation should include the following sections:
 
 1. **Introduction**:
    - Overview of the project, its purpose, and its features.
-   - Mention the development period (August 21, 2020 - September 25, 2022).
+   - Mention the development period (August 21, 2022 - September 25, 2022).
 
 2. **System Architecture**:
    - High-level overview of the system's architecture.
