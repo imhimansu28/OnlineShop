@@ -12,23 +12,22 @@
     justify-content: center;
     flex: 0 0 23px;
     width: 23px;
-    border: 0;
-    border-right: 1px solid var(--hairline-color);
-    background-color: var(--body-bg);
+    border-right: 1px solid #eaeaea;
+    background-color: #ffffff;
     cursor: pointer;
     font-size: 20px;
-    color: var(--link-fg);
+    color: #447e9b;
     padding: 0;
 }
 
 [dir="rtl"] .toggle-nav-sidebar {
-    border-left: 1px solid var(--hairline-color);
+    border-left: 1px solid #eaeaea;
     border-right: 0;
 }
 
 .toggle-nav-sidebar:hover,
 .toggle-nav-sidebar:focus {
-    background-color: var(--darkened-bg);
+    background-color: #f6f6f6;
 }
 
 #nav-sidebar {
@@ -37,13 +36,13 @@
     left: -276px;
     margin-left: -276px;
     border-top: 1px solid transparent;
-    border-right: 1px solid var(--hairline-color);
-    background-color: var(--body-bg);
+    border-right: 1px solid #eaeaea;
+    background-color: #ffffff;
     overflow: auto;
 }
 
 [dir="rtl"] #nav-sidebar {
-    border-left: 1px solid var(--hairline-color);
+    border-left: 1px solid #eaeaea;
     border-right: 0;
     left: 0;
     margin-left: 0;
@@ -72,16 +71,11 @@
 
 #nav-sidebar .module th {
     width: 100%;
-    overflow-wrap: anywhere;
 }
 
 #nav-sidebar .module th,
 #nav-sidebar .module caption {
     padding-left: 16px;
-}
-
-#nav-sidebar .module td {
-    white-space: nowrap;
 }
 
 [dir="rtl"] #nav-sidebar .module th,
@@ -92,29 +86,16 @@
 
 #nav-sidebar .current-app .section:link,
 #nav-sidebar .current-app .section:visited {
-    color: var(--header-color);
+    color: #ffc;
     font-weight: bold;
 }
 
 #nav-sidebar .current-model {
-    background: var(--selected-row);
-}
-
-.main > #nav-sidebar + .content {
-    max-width: calc(100% - 23px);
-}
-
-.main.shifted > #nav-sidebar + .content {
-    max-width: calc(100% - 299px);
+    background: #ffc;
 }
 
 @media (max-width: 767px) {
     #nav-sidebar, #toggle-nav-sidebar {
         display: none;
-    }
-
-    .main > #nav-sidebar + .content,
-    .main.shifted > #nav-sidebar + .content {
-        max-width: 100%;
     }
 }

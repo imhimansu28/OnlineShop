@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+
+
 {% block content %}
+
 <section class="section-conten padding-y bg">
 
+{% include 'includes/alerts.html' %}
 <div class="container">
-     <div class="row text-center">
-      {% include 'includes/alerts.html' %}
-      </div>
 	<div class="row">
 	<aside class="col-md-3">
 		<!--   SIDEBAR   -->
@@ -18,7 +19,7 @@
 			<a class="list-group-item" href="#"> Received orders </a>
 		</ul>
 		<br>
-		<a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a> 
+		<a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
 		<!--   SIDEBAR .//END   -->
 	</aside>
 	<main class="col-md-9">
@@ -28,12 +29,12 @@
 			<span>Order Date: 16 December 2018</span>
 		</header>
 		<div class="card-body">
-			<div class="row"> 
+			<div class="row">
 				<div class="col-md-8">
 					<h6 class="text-muted">Delivery to</h6>
-					<p>Michael Jackson <br>  
+					<p>Michael Jackson <br>
 					Phone +1234567890 Email: myname@pixsellz.com <br>
-			    	Location: Home number, Building name, Street 123,  Tashkent, UZB <br> 
+			    	Location: Home number, Building name, Street 123,  Tashkent, UZB <br>
 			    	P.O. Box: 100123
 			 		</p>
 				</div>
@@ -41,10 +42,10 @@
 					<h6 class="text-muted">Payment</h6>
 					<span class="text-success">
 						<i class="fab fa-lg fa-cc-visa"></i>
-					    Visa  **** 4216  
+					    Visa  **** 4216
 					</span>
 					<p>Subtotal: $356 <br>
-					 Shipping fee:  $56 <br> 
+					 Shipping fee:  $56 <br>
 					 <span class="b">Total:  $456 </span>
 					</p>
 				</div>
@@ -56,7 +57,7 @@
 				<td width="65">
 					<img src="../images/items/1.jpg" class="img-xs border">
 				</td>
-				<td> 
+				<td>
 					<p class="title mb-0">Product name goes here </p>
 					<var class="price text-muted">USD 145</var>
 				</td>
@@ -67,7 +68,7 @@
 				<td>
 					<img src="../images/items/2.jpg" class="img-xs border">
 				</td>
-				<td> 
+				<td>
 					<p class="title mb-0">Another name goes here </p>
 					<var class="price text-muted">USD 15</var>
 				</td>
@@ -78,7 +79,7 @@
 				<td>
 					<img src="../images/items/3.jpg" class="img-xs border">
 				</td>
-				<td> 
+				<td>
 					<p class="title mb-0">The name of the product  goes here </p>
 					<var class="price text-muted">USD 145</var>
 				</td>
@@ -87,12 +88,12 @@
 			</tr>
 		</table>
 		</div> <!-- table-responsive .end// -->
-		</article> <!-- order-group.// --> 
+		</article> <!-- order-group.// -->
 	</main>
 </div> <!-- row.// -->
 </div>
 
 
 </section>
-{% endblock content %}
 
+{% endblock %}
