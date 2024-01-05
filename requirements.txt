@@ -1,7 +1,7 @@
 asgiref==3.3.1
 certifi==2023.7.22
 chardet==4.0.0
-Django==3.1.7
+Django==3.1.14
 django-admin-honeypot==1.1.0
 django-admin-thumbnails==0.2.5
 django-session-timeout==0.1.0
